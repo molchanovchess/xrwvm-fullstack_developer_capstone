@@ -5,14 +5,15 @@ import Header from '../Header/Header';
 import review_icon from "../assets/reviewicon.png"
 
 const Dealers = () => {
+  
   const [dealersList, setDealersList] = useState([]);
   // let [state, setState] = useState("")
   let [states, setStates] = useState([])
 
   // let root_url = window.location.origin
-  let dealer_url ="/djangoapp/get_dealers";
+  let dealer_url ="http://localhost:3030/fetchDealers";
   
-  let dealer_url_by_state = "/djangoapp/get_dealers/";
+  let dealer_url_by_state = "http://localhost:3030/fetchDealers/";
  
   const filterDealers = async (state) => {
     dealer_url_by_state = dealer_url_by_state+state;
@@ -20,19 +21,25 @@ const Dealers = () => {
       method: "GET"
     });
     const retobj = await res.json();
-    if(retobj.status === 200) {
-      let state_dealers = Array.from(retobj.dealers)
+    console.log(1234, retobj)
+    if(retobj?.length) {
+      console.log(1234, retobj)
+      let state_dealers = retobj;
+      console.log(111111, state_dealers)
       setDealersList(state_dealers)
     }
   }
 
   const get_dealers = async ()=>{
+    console.log(123123);
     const res = await fetch(dealer_url, {
       method: "GET"
     });
+    console.log(res);
     const retobj = await res.json();
-    if(retobj.status === 200) {
-      let all_dealers = Array.from(retobj.dealers)
+    console.log(555, retobj);
+    if(retobj?.length) {
+      let all_dealers = retobj;
       let states = [];
       all_dealers.forEach((dealer)=>{
         states.push(dealer.state)
